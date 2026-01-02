@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brick Game - 4 Classic Games in One</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/Icon.png" type="image/png">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2470a5;
+            --secondary-color: #0d1520;
+            --accent-color: #00C6FF;
+            --accent-gold: #FFD700;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --dark-bg: #14212e;
+            --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-gold) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e17 0%, #1a1f2e 100%);
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--secondary-color);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 10px;
+            border: 3px solid var(--secondary-color);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gradient-accent);
+        }
+
+        /* Header with Feature Graphic */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 40px 20px;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://github.com/nadeemgamingstudio/brickgame/blob/main/Feature%20graphic.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.15;
+            filter: blur(3px);
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(10, 14, 23, 0.9) 0%, rgba(26, 31, 46, 0.7) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .game-icon-container {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 30px;
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .game-icon {
+            width: 100%;
+            height: 100%;
+            border-radius: 35px;
+            border: 5px solid var(--accent-color);
+            box-shadow: 0 0 50px rgba(0, 198, 255, 0.5),
+                        inset 0 0 30px rgba(0, 198, 255, 0.2);
+            overflow: hidden;
+            background: white;
+            padding: 15px;
+            transition: var(--transition);
+        }
+
+        .game-icon:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 0 70px rgba(0, 198, 255, 0.8);
+        }
+
+        .game-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 20px;
+        }
+
+        .game-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+
+        .game-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 5px;
+            background: var(--gradient-accent);
+            border-radius: 5px;
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            color: #ccc;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Game Info Section */
+        .game-info {
+            padding: 100px 20px;
+            background: var(--secondary-color);
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 60px;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(to right, var(--accent-color), var(--accent-gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .game-card:hover::before {
+            left: 100%;
+        }
+
+        .game-card:hover {
+            transform: translateY(-20px);
+            border-color: var(--accent-color);
+            box-shadow: 0 20px 40px rgba(0, 198, 255, 0.2);
+        }
+
+        .game-icon-small {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .game-card p {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+
+        /* Screenshots Section */
+        .screenshots-section {
+            padding: 100px 20px;
+            background: #0a0e17;
+        }
+
+        .screenshots-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        .screenshot-item {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            transition: var(--transition);
+            height: 600px;
+        }
+
+        .screenshot-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 25px 50px rgba(0, 198, 255, 0.3);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .screenshot-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .screenshot-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+            padding: 30px;
+            transform: translateY(100px);
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .screenshot-item:hover .screenshot-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .screenshot-number {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--gradient-accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Fullscreen Image Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0, 198, 255, 0.5);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-color);
+            transform: rotate(90deg);
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 30px;
+        }
+
+        .nav-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-color);
+            transform: scale(1.1);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 100px 20px;
+            background: var(--secondary-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .feature-item:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            color: var(--accent-color);
+            display: inline-block;
+        }
+
+        .feature-item h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .feature-item p {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0a0e17;
+            padding: 80px 20px 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .developer-info {
+            margin-bottom: 40px;
+        }
+
+        .developer-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.2rem;
+            color: #ccc;
+        }
+
+        .contact-item i {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+        }
+
+        .email-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .email-link:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 10px 20px;
+            border-radius: 25px;
+        }
+
+        .footer-link:hover {
+            color: white;
+            background: rgba(0, 198, 255, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .copyright a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .game-title {
+                font-size: 4rem;
+            }
+            
+            .section-title {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 2.8rem;
+                letter-spacing: 3px;
+            }
+            
+            .tagline {
+                font-size: 1.4rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .game-icon-container {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .screenshots-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .screenshot-item {
+                height: 500px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-title {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .screenshot-item {
+                height: 400px;
+            }
+        }
+
+        /* Animation Classes */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="game-icon-container">
+                <div class="game-icon">
+                    <img src="https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/Icon.png" alt="Brick Game Icon">
+                </div>
+            </div>
+            
+            <h1 class="game-title">Brick Game</h1>
+            <p class="tagline">Experience the ultimate retro gaming collection with 4 classic games in one premium package!</p>
+            
+            <div class="cta-buttons">
+                <button class="download-btn" onclick="scrollToSection('games')" style="
+                    background: var(--gradient-accent);
+                    color: black;
+                    border: none;
+                    padding: 20px 50px;
+                    font-size: 1.3rem;
+                    font-weight: bold;
+                    border-radius: 50px;
+                    cursor: pointer;
+                    transition: var(--transition);
+                    margin: 20px;
+                    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+                ">
+                    <i class="fas fa-gamepad"></i> Explore Games
+                </button>
+                
+                <button class="features-btn" onclick="scrollToSection('screenshots')" style="
+                    background: transparent;
+                    color: white;
+                    border: 2px solid var(--accent-color);
+                    padding: 20px 50px;
+                    font-size: 1.3rem;
+                    font-weight: bold;
+                    border-radius: 50px;
+                    cursor: pointer;
+                    transition: var(--transition);
+                    margin: 20px;
+                ">
+                    <i class="fas fa-images"></i> View Screenshots
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section id="games" class="game-info">
+        <h2 class="section-title">4 CLASSIC GAMES IN ONE</h2>
+        <div class="games-container">
+            <div class="game-card animate-on-scroll">
+                <div class="game-icon-small">
+                    <i class="fas fa-th-large"></i>
+                </div>
+                <h3>TETRIS</h3>
+                <p>The timeless block puzzle game. Arrange falling blocks to complete lines and score points. Multiple difficulty levels, increasing speed, and endless fun!</p>
+            </div>
+            
+            <div class="game-card animate-on-scroll">
+                <div class="game-icon-small">
+                    <i class="fas fa-car"></i>
+                </div>
+                <h3>CAR RACE</h3>
+                <p>High-speed racing action! Avoid traffic, dodge obstacles, and race through endless highways. Test your reflexes in this thrilling arcade racer.</p>
+            </div>
+            
+            <div class="game-card animate-on-scroll">
+                <div class="game-icon-small">
+                    <i class="fas fa-snake"></i>
+                </div>
+                <h3>SNAKE</h3>
+                <p>Classic snake game with modern twists. Grow your snake by eating food while avoiding walls and obstacles. Multiple levels with increasing difficulty.</p>
+            </div>
+            
+            <div class="game-card animate-on-scroll">
+                <div class="game-icon-small">
+                    <i class="fas fa-crosshairs"></i>
+                </div>
+                <h3>SHOOTER</h3>
+                <p>Defend your base in this action-packed shooter. Control your tank, shoot enemies, and survive waves of attacks. Fast-paced arcade shooting action!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2 class="section-title">PREMIUM FEATURES</h2>
+        <div class="features-grid">
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3>Retro Arcade Experience</h3>
+                <p>Authentic retro gaming experience with modern graphics and smooth controls. Feel the nostalgia with updated classics.</p>
+            </div>
+            
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Progressive Difficulty</h3>
+                <p>10 challenging levels per game with increasing difficulty. Test your skills and beat your high scores!</p>
+            </div>
+            
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3>High Score System</h3>
+                <p>Track your best scores across all 4 games. Compete with yourself and friends to be the ultimate champion.</p>
+            </div>
+            
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3>Customizable Theme</h3>
+                <p>Personalize your gaming experience with multiple background themes, colors, and patterns.</p>
+            </div>
+            
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+                <h3>Immersive Sound Effects</h3>
+                <p>Authentic arcade sound effects and background music. Toggle sound on/off according to your preference.</p>
+            </div>
+            
+            <div class="feature-item animate-on-scroll">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Optimized Controls</h3>
+                <p>Intuitive touch controls designed specifically for mobile devices. Responsive and precise gameplay.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section id="screenshots" class="screenshots-section">
+        <h2 class="section-title">GAME SCREENSHOTS</h2>
+        <div class="screenshots-container">
+            <!-- Screenshot 1 -->
+            <div class="screenshot-item animate-on-scroll" onclick="openModal(0)">
+                <div class="screenshot-number">1</div>
+                <img src="https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/1.png" alt="Brick Game Screenshot 1">
+                <div class="screenshot-overlay">
+                    <h3>Tetris Gameplay</h3>
+                    <p>Classic block arranging action</p>
+                </div>
+            </div>
+            
+            <!-- Screenshot 2 -->
+            <div class="screenshot-item animate-on-scroll" onclick="openModal(1)">
+                <div class="screenshot-number">2</div>
+                <img src="https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/2.png" alt="Brick Game Screenshot 2">
+                <div class="screenshot-overlay">
+                    <h3>Car Race Action</h3>
+                    <p>High-speed highway racing</p>
+                </div>
+            </div>
+            
+            <!-- Screenshot 3 -->
+            <div class="screenshot-item animate-on-scroll" onclick="openModal(2)">
+                <div class="screenshot-number">3</div>
+                <img src="https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/3.png" alt="Brick Game Screenshot 3">
+                <div class="screenshot-overlay">
+                    <h3>Snake Challenge</h3>
+                    <p>Classic snake with obstacles</p>
+                </div>
+            </div>
+            
+            <!-- Screenshot 4 -->
+            <div class="screenshot-item animate-on-scroll" onclick="openModal(3)">
+                <div class="screenshot-number">4</div>
+                <img src="https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/4.png" alt="Brick Game Screenshot 4">
+                <div class="screenshot-overlay">
+                    <h3>Shooter Battle</h3>
+                    <p>Tank warfare action</p>
+                </div>
+            </div>
+            
+            <!-- Screenshot 5 -->
+            <div class="screenshot-item animate-on-scroll" onclick="openModal(4)">
+                <div class="screenshot-number">5</div>
+                <img src="https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/5.png" alt="Brick Game Screenshot 5">
+                <div class="screenshot-overlay">
+                    <h3>Game Selection</h3>
+                    <p>Choose from 4 amazing games</p>
+                </div>
+            </div>
+            
+            <!-- Screenshot 6 -->
+            <div class="screenshot-item animate-on-scroll" onclick="openModal(5)">
+                <div class="screenshot-number">6</div>
+                <img src="https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/6.png" alt="Brick Game Screenshot 6">
+                <div class="screenshot-overlay">
+                    <h3>Settings Menu</h3>
+                    <p>Customize your experience</p>
+                </div>
+            </div>
+            
+            <!-- Screenshot 7 -->
+            <div class="screenshot-item animate-on-scroll" onclick="openModal(6)">
+                <div class="screenshot-number">7</div>
+                <img src="https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/7.png" alt="Brick Game Screenshot 7">
+                <div class="screenshot-overlay">
+                    <h3>Home Screen</h3>
+                    <p>Beautiful retro interface</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fullscreen Image Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-nav">
+            <button class="nav-btn prev-btn" onclick="changeImage(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="nav-btn next-btn" onclick="changeImage(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Fullscreen Screenshot">
+            <div class="close-modal" onclick="closeModal()">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="developer-info">
+                <h3>Nadeem Gaming Studio</h3>
+                <p>Creating premium gaming experiences with passion and innovation</p>
+            </div>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Developer: Nadeem Gaming Studio</span>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email: <a href="mailto:nadeemgamer180@gmail.com" class="email-link">nadeemgamer180@gmail.com</a></span>
+                </div>
+                
+                <div class="contact-item">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Game: Brick Game</span>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <a href="https://nadeemgamingstudio.github.io/brickgame/privacypolicy" class="footer-link" target="_blank">
+                    <i class="fas fa-shield-alt"></i> Privacy Policy
+                </a>
+                <a href="#games" class="footer-link">
+                    <i class="fas fa-gamepad"></i> Games
+                </a>
+                <a href="#screenshots" class="footer-link">
+                    <i class="fas fa-images"></i> Screenshots
+                </a>
+                <a href="mailto:nadeemgamer180@gmail.com" class="footer-link">
+                    <i class="fas fa-envelope"></i> Contact
+                </a>
+            </div>
+            
+            <div class="copyright">
+                <p>© <span id="currentYear">2025</span> Nadeem Gaming Studio. All Rights Reserved.</p>
+                <p>Brick Game and all related content are trademarks of <a href="https://github.com/nadeemgamingstudio" target="_blank">Nadeem Gaming Studio</a>.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Screenshots data
+        const screenshots = [
+            { src: 'https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/1.png', title: 'Tetris Gameplay' },
+            { src: 'https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/2.png', title: 'Car Race Action' },
+            { src: 'https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/3.png', title: 'Snake Challenge' },
+            { src: 'https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/4.png', title: 'Shooter Battle' },
+            { src: 'https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/5.png', title: 'Game Selection' },
+            { src: 'https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/6.png', title: 'Settings Menu' },
+            { src: 'https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/7.png', title: 'Home Screen' }
+        ];
+
+        let currentImageIndex = 0;
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        // Open modal with specific image
+        function openModal(index) {
+            currentImageIndex = index;
+            modalImage.src = screenshots[index].src;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Change image in modal
+        function changeImage(direction) {
+            currentImageIndex = (currentImageIndex + direction + screenshots.length) % screenshots.length;
+            modalImage.src = screenshots[currentImageIndex].src;
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+            if (modal.classList.contains('active')) {
+                if (e.key === 'ArrowLeft') changeImage(-1);
+                if (e.key === 'ArrowRight') changeImage(1);
+            }
+        });
+
+        // Close modal when clicking outside image
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+
+        // Scroll to section
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Set current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Animate on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animate-on-scroll elements
+        document.querySelectorAll('.animate-on-scroll').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Add smooth scroll behavior for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#') {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // Add hover effect to buttons
+        const downloadBtn = document.querySelector('.download-btn');
+        const featuresBtn = document.querySelector('.features-btn');
+
+        if (downloadBtn) {
+            downloadBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.05)';
+                this.style.boxShadow = '0 20px 40px rgba(255, 215, 0, 0.5)';
+            });
+            
+            downloadBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.boxShadow = '0 10px 30px rgba(255, 215, 0, 0.3)';
+            });
+        }
+
+        if (featuresBtn) {
+            featuresBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.background = 'rgba(0, 198, 255, 0.1)';
+            });
+            
+            featuresBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.background = 'transparent';
+            });
+        }
+    </script>
+</body>
+</html>
