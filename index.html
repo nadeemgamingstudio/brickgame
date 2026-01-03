@@ -988,6 +988,44 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-accent);
+            color: black;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 198, 255, 0.4);
+            z-index: 100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 20px 40px rgba(0, 198, 255, 0.6);
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+        
     </style>
 </head>
 <body>
@@ -1011,7 +1049,7 @@
             
             <div class="cta-buttons">
                 <a href="https://play.google.com/store/apps/details?id=com.nadeemgs.brickgame" target="_blank" class="cta-button playstore-btn">
-                    <img src="https://raw.githubusercontent.com/nadeemgamingstudio/brickgame/refs/heads/main/PlayStorebutton.png" alt="Google Play">
+                    <i class="fab fa-google-play"></i>
                     DOWNLOAD NOW
                 </a>
                 
@@ -1390,6 +1428,24 @@
         // Set current year in copyright
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
+        // Back to top button
+        const backToTopButton = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
         // Animate on scroll
         const observerOptions = {
             threshold: 0.1,
@@ -1480,3 +1536,4 @@
     </script>
 </body>
 </html>
+
